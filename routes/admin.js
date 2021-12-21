@@ -1,36 +1,15 @@
 var express = require('express');
+const productHelpers = require('../helpers/product-helpers');
 var router = express.Router();
-
+var productHelper = require('../helpers/product-helpers')
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  let products = [
-    {
-      name : "IPHONE 11 PRO",
-      category : "MObile",
-      description : "lorem ipsem sit amet dolor it.",
-      image : "https://static.toiimg.com/thumb/resizemode-4,msid-71395006,imgsize-500,width-800/71395006.jpg"
-    },
-    {
-      name : "OPPO F11",
-      category : "MObile",
-      description : "lorem ipsem sit amet dolor it.",
-      image : "https://img.tatacliq.com/images/i6/1348Wx2000H/MP000000004463836_1348Wx2000H_20200805234048.jpeg"
-    },
-    {
-      name : " SAMSUNG S20",
-      category : "MObile",
-      description : "lorem ipsem sit amet dolor it.",
-      image : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHFjGQl7NRWDEBQbXdWzxNOk172p0tm3HlzQ&usqp=CAU"
-    },
-    {
-      name : "REDMI NOTE 10",
-      category : "MObile",
-      description : "lorem ipsem sit amet dolor it.",
-      image : "https://static.digit.in/default/56df7a071797e0355cc2f6f95093fefd89c43c94.jpeg?tr="
-    }
-  ]
-
+productHelpers.getAllProducts().then((products)=>{
+  console.log(products);
   res.render('admin/view-products',{admin:true,products});
+
+})  
+
 });
 router.get('/add-product',function(req,res){
   res.render('admin/add-product')
@@ -38,5 +17,16 @@ router.get('/add-product',function(req,res){
 router.post('/add-product',(req,res)=>{
   console.log(req.body)
   console.log(req.files.Image)
+   productHelpers.addProduct(req.body,(id)=>{
+     let Image = req.files.Image
+     Image.mv('./public/product-images/'+id+'.jpg',(err,done)=>{
+       if(!err){
+        res.render("admin/add-product")
+       }else{
+         console.log(err)
+       }
+     })
+     
+   })
 })
 module.exports = router;
