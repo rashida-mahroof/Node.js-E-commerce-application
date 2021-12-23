@@ -1,13 +1,17 @@
 <div class="container mt-5 pl-5">
-<form class="mx-auto " style="width: 500px; ">
+<form class="mx-auto " style="width: 500px; " method="post" action="/login">
+    
     <h1 class="text-center">Login</h1>
+    {{#if loginErr}}
+        <p  style="color: lightcoral; background:rgb(224, 224, 224) ">{{loginErr}}</p>
+    {{/if}}
   <div class="form-group">
     <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+    <input type="email" class="form-control" id="exampleInputEmail1" name="Email" aria-describedby="emailHelp" placeholder="Enter email">
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    <input type="password" class="form-control" id="exampleInputPassword1" name="Password" placeholder="Password">
   </div>
  <a href="/signup">Create new account?</a>
   <button type="submit" class="float-right btn btn-primary">Login</button>
