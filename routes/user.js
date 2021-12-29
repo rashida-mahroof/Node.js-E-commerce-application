@@ -4,15 +4,26 @@ var router = express.Router();
 const userHelpers = require('../helpers/user-helpers')
 const productHelpers = require('../helpers/product-helpers');
 const session = require('express-session');
-
+const async = require('hbs/lib/async');
+const verifyLogin = (req,res,next)=>{
+  if(req.session.loggedIn){
+    next()
+  }else{
+    res.redirect('/login')
+  }
+}
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', async function(req, res, next) {
 let user = req.session.user
 console.log(user);
+let cartCount = null
+if(req.session.user){
+    cartCount = await userHelpers.getCartCount(req.session.user._id)
+}
   productHelpers.getAllProducts().then((products)=>{
     //console.log(products);
-    res.render('user/view-products',{products,user});
+    res.render('user/view-products',{products,user,cartCount});
   
   })
 });
@@ -34,6 +45,10 @@ router.get('/signup',(req,res)=>{
 router.post('/signup',(req,res)=>{
   userHelpers.doSignup(req.body).then((response)=>{
     console.log(response);
+    req.session.loggedIn = true
+    req.session.user = response
+    res.redirect('/')
+
   })
 })
 
@@ -54,4 +69,19 @@ router.get('/logout',(req,res)=>{
   req.session.destroy()
   res.redirect('/')
 })
+
+router.get('/cart',verifyLogin,async(req,res,next)=>{
+  let products =await userHelpers.getCartProducts(req.session.user._id)
+  console.log(products)
+  res.render('user/cart',{products,user:req.session.user})
+})
+
+router.get('/add-to-cart/:id',(req,res)=>{
+  console.log("api call");
+  userHelpers.addToCart(req.params.id,req.session.user._id).then(()=>{
+    res.json({status:true})
+  })
+})
+
+
 module.exports = router;
