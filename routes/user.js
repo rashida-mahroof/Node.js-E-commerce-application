@@ -5,6 +5,7 @@ const userHelpers = require('../helpers/user-helpers')
 const productHelpers = require('../helpers/product-helpers');
 const session = require('express-session');
 const async = require('hbs/lib/async');
+const { response } = require('express');
 const verifyLogin = (req,res,next)=>{
   if(req.session.loggedIn){
     next()
@@ -70,18 +71,37 @@ router.get('/logout',(req,res)=>{
   res.redirect('/')
 })
 
-router.get('/cart',verifyLogin,async(req,res,next)=>{
+router.get('/cart',verifyLogin,async(req,res)=>{
   let products =await userHelpers.getCartProducts(req.session.user._id)
+  let totalValue = await userHelpers.getTotalAmount(req.session.user._id)
   console.log(products)
-  res.render('user/cart',{products,user:req.session.user})
+  res.render('user/cart',{products,'user':req.session.user,totalValue})
 })
 
 router.get('/add-to-cart/:id',(req,res)=>{
-  console.log("api call");
+  //console.log("api call");
   userHelpers.addToCart(req.params.id,req.session.user._id).then(()=>{
     res.json({status:true})
   })
 })
 
+router.post('/change-product-quantity',(req,res,next)=>{
+  console.log(req.body);
+   userHelpers.changeProductQuantity(req.body).then(async(response)=>{
+   response.total = await userHelpers.getTotalAmount(req.body.user)
+    res.json(response)
+  })
+})
 
+router.post('/remove-item',(req,res,next)=>{
+  console.log(req.body);
+  userHelpers.removeCartItem(req.body).then((response)=>{
+    res.json(response)
+  }) 
+})
+
+router.get('/place-order',verifyLogin,async(req,res)=>{
+  let total = await userHelpers.getTotalAmount(req.session.user._id)
+  res.render('user/place-order',{total,user:req.session.user})
+})
 module.exports = router;
