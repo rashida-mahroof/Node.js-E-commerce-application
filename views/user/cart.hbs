@@ -1,5 +1,6 @@
 <section>
     <div class="container">
+         {{#if products}}
         <table class="table mt-5">
             <thead>
                 <tr>
@@ -28,11 +29,16 @@
                 {{/each}}
             </tbody>
         </table>
+               
+
         <hr>
         <div class="float-right pr-5">
         <h4 class="float-left me-5" > Total: Rs. <span id="total">{{totalValue}}</span> </h4>
             <a href="/place-order" class="btn btn-success mt-3" style="width: 100%;"><b> Place Order</b></a>
         </div>
+        {{else}}
+        <h3 class="text-center">Cart is Empty</h3>
+        {{/if}}
     </div>
 </section>
 
@@ -60,10 +66,12 @@
                 if(response.removeProduct){
                     alert("Product removed from cart")
                     location.reload()
-                }else{
+                }else if(response.total){
                     console.log(response)
                     document.getElementById(proId).innerHTML = quantity+count
                     document.getElementById('total').innerHTML = response.total
+                }else{
+                    alert("cart is empty")
                 }
             }
         })
