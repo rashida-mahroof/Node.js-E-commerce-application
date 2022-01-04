@@ -44,14 +44,15 @@
 
              {{#if user}}
             <li class="nav-item">
-              <a class="nav-link" href="#">Orders</a>
+              <a class="nav-link" href="/orders/{{this.user._id}}">Orders</a>
             </li>
             {{/if}}
           </ul>
-          <div class="dropdown">
+          <div class="btn-group dropleft">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     {{#if user}}
       {{user.Name}}
+      
     {{else}}
     Account
     {{/if}}
@@ -59,6 +60,7 @@
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
     {{#if user}}
+    <a class="dropdown-item" href="">{{user.Email}}</a>
      <a class="dropdown-item" href="/logout">Logout</a>
     {{else}}
         <a class="dropdown-item" href="/login">Login</a>

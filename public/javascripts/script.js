@@ -1,5 +1,4 @@
 function addToCart(prodId){
-    console.log("hi");
     $.ajax({
       url:'/add-to-cart/'+prodId,
       method:'get',

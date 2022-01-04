@@ -1,10 +1,17 @@
 
     <section>
       <div class="container mt-5">
+
+        <form class="form-inline" id="searchForm" method="post" action="/search-product" enctype="multipart/form-data">
+        <input class="form-control mr-sm-2" name="searchKey" type="search" id="searchBox" placeholder="Search" aria-label="Search">
+        <button  class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
         <div class="row">
+          
             {{#each products}}
           <div class="col-md-3">
-            <div class="card" style="width: 16rem;height: 26rem">
+            <div class="card" id="card" style="width: 16rem;height: 26rem">
               <img
                 class="card-img-top"
                 src="/product-images/{{this._id}}.jpg"
@@ -15,7 +22,10 @@
                 <h5 class="card-title">{{this.Name}}</h5>
                 <h6 class="card-text">{{this.Price}}/-</h6>
                 <p class="card-text">{{this.Description}}</p>
-                <button class="btn btn-primary" onclick="addToCart('{{this._id}}')">Add To Cart</button>
+               
+                <button class="btn btn-primary"  onclick="addToCart('{{this._id}}')" >Add To Cart</button>
+               
+               
               </div> 
             </div>
           </div>
@@ -25,8 +35,22 @@
     </section>
 
 
-    <script>
-     
-    </script>
+{{!-- <script>
+    $("#searchForm").submit((e)=>{
+        e.preventDefault()
+        
+        $.ajax({
+            url:'/search-product',
+            method:'post',
+            data:$('#searchForm').serialize(),          //serialize method is used to get all datas of the form
+            success:(response)=>{
+                //alert("Order Placed")
+                if(response){
+                    
+                }
 
-    
+            }
+        })
+    })
+</script>
+     --}}

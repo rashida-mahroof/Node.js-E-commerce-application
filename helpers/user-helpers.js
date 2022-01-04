@@ -9,6 +9,11 @@ const collections = require('../config/collections')
 const { Collection } = require('mongodb')
 const { response } = require('express')
 const { resolve } = require('path/posix')
+const Razorpay = require('razorpay')
+var instance = new Razorpay({
+    key_id: 'rzp_test_nqi29sGndJvLTh',
+    key_secret: 'vgK7QX8OeLV1qAr1bIoIpXRq',
+});
 
 module.exports = {
     doSignup: (userData)=>{
@@ -187,7 +192,8 @@ module.exports = {
     },
     getTotalAmount:(userId)=>{   
             return new Promise(async(resolve,reject)=>{
-                let total = await db.get().collection(collection.CART_COLLECTION).aggregate([
+                
+                 total = await db.get().collection(collection.CART_COLLECTION).aggregate([
                     {
                         $match:{user:objectId(userId)}
                     },
@@ -244,7 +250,7 @@ module.exports = {
             }
             db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response)=>{
                 db.get().collection(collection.CART_COLLECTION).deleteOne({user:objectId(order.userId)})
-                resolve();
+                resolve(response.insertedId);
             })
         })
     },
@@ -298,5 +304,34 @@ module.exports = {
             ]).toArray()
             resolve(orderItems)
         })
-    }
+    },
+    cancelOrder:(details)=>{
+        return new Promise(async(resolve,reject)=>{
+       await db.get().collection(collection.ORDER_COLLECTION).deleteOne({_id:objectId(details.orderId)}).then((response)=>{
+                resolve(response)
+            })
+        })
+    },
+    
+    // generateRazorpay:(orderId,total)=>{
+    //     console.log(orderId+"--------------------- "+total);
+    //     return new Promise((resolve,reject)=>{
+            //  var options = {
+            //     amount: 800,
+            //     currency: "INR",
+            //     receipt: "orderId",
+            // };
+           
+            // instance.orders.create(amount,currency,orderId,(err, order)=>{
+            //     console.log(order);
+            // })
+            // instance.orders.create(options,function(err,order){
+            //     // if(err){
+            //          console.log(err);
+            //     // }else{
+            //     //    console.log(options);
+            //     // }
+            // })
+    //     })
+    // }
 }

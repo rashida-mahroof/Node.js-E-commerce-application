@@ -48,6 +48,22 @@ module.exports={
                 resolve()
             })
         })
-    }
+    },
+    getSearchResults:(details)=>{
+        return new Promise(async(resolve,reject)=>{
+         console.log( details.searchKey);  
+  
+          let searchProducts = await db.get().collection(collection.PRODUCT_COLLECTION).find(
+            {$text:{$search:details.searchKey}}
+           
+          ).toArray()
+            
+            //console.log(searchProducts);
+            resolve(searchProducts)
+          
+           // console.log(searchResult);
+           // resolve(searchResult)
+        })
+    },
 
 }

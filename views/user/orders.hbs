@@ -25,8 +25,9 @@
       <td>{{this.total}}</td>
       <td>{{this.paymentMethod}}</td>
       <td>{{this.status}}</td>    
-      <td><a class="btn btn-primary" href="/view-order-products/{{this._id}}" >View Products</a></td>
-   
+      <td><a class="btn btn-primary" href="/view-order-products/{{this._id}}" >View Products</a>
+          <a href="" onclick="cancelOrder('{{this._id}}')" style="color: rgb(255, 80, 80);"><b>Cancel Order</b> </a>
+      </td>
     </tr>
   
     {{/each}}
@@ -34,3 +35,26 @@
 </table>
     </div>
 </section>
+
+
+
+<script>
+  function cancelOrder(orderId){
+    //console.log("--------------------------------" +orderId)
+            $.ajax({
+            url:'/cancel-order',
+            method:'post',
+            data:
+              {
+                orderId:orderId,
+                count:1
+              },
+                          success:(response)=>{
+                if(response){
+                    return confirm("Do you want to cancel this order")
+                    location.reload()
+                }
+            }
+        })
+    }
+</script>
