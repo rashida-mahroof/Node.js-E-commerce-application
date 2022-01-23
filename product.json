@@ -1,0 +1,73 @@
+[{
+  "_id": {
+    "$oid": "61c09052f7605fb1127e7144"
+  },
+  "Name": "iphone 11 pro max",
+  "Category": "mobbile",
+  "Price": "100000",
+  "Description": "something"
+},{
+  "_id": {
+    "$oid": "61c090adf7605fb1127e7145"
+  },
+  "Name": "oppo f11",
+  "Category": "mobile",
+  "Price": "75000",
+  "Description": "something"
+},{
+  "_id": {
+    "$oid": "61c090fff7605fb1127e7146"
+  },
+  "Name": "Samsung S20",
+  "Category": "mobile",
+  "Price": "95000",
+  "Description": "something"
+},{
+  "_id": {
+    "$oid": "61c09163f7605fb1127e7147"
+  },
+  "Name": "Redmi Note 10",
+  "Category": "mobile",
+  "Price": "67000",
+  "Description": "something"
+},{
+  "_id": {
+    "$oid": "61c09227f7605fb1127e7148"
+  },
+  "Name": "Oneplus 11",
+  "Category": "mobile",
+  "Price": "90000",
+  "Description": "somethong"
+},{
+  "_id": {
+    "$oid": "61c09279f7605fb1127e7149"
+  },
+  "Name": "Nokia 7.2",
+  "Category": "mobile",
+  "Price": "25000",
+  "Description": "something"
+},{
+  "_id": {
+    "$oid": "61cc2308edf100eaf0ec484a"
+  },
+  "Name": "sample",
+  "Category": "Earpod",
+  "Price": "5000",
+  "Description": "something"
+},{
+  "_id": {
+    "$oid": "61cc2327edf100eaf0ec484b"
+  },
+  "Name": "Realme ",
+  "Category": "mobile",
+  "Price": "28000",
+  "Description": "something"
+},{
+  "_id": {
+    "$oid": "61cc2341edf100eaf0ec484c"
+  },
+  "Name": "Alexa",
+  "Category": "mobile",
+  "Price": "10000",
+  "Description": "s"
+}]

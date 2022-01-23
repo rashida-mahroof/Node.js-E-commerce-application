@@ -82,13 +82,15 @@ router.get('/logout',(req,res)=>{
 })
 
 router.get('/cart',verifyLogin,async(req,res)=>{
-  let products =await userHelpers.getCartProducts(req.session.user._id)
-  //console.log(products);
-  if(products){
-    let totalValue = await userHelpers.getTotalAmount(req.session.user._id)
-    //console.log(products)
-    res.render('user/cart',{products,'user':req.session.user,totalValue})
-  }
+    let products =await userHelpers.getCartProducts(req.session.user._id)
+    console.log(products.length);
+    if(products.length!=0){
+      let totalValue = await userHelpers.getTotalAmount(req.session.user._id)
+      //console.log(products)
+      res.render('user/cart',{products,'user':req.session.user,totalValue})
+     }else{
+      res.render('user/cart',{'user':req.session.user})
+     }
 })
 
 router.get('/add-to-cart/:id',verifyLogin,async(req,res)=>{

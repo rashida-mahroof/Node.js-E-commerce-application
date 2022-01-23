@@ -133,6 +133,7 @@ module.exports = {
                 
             ]).toArray()
             resolve(cartItems)
+            //console.log(cartItems)
             
             
         })
@@ -231,7 +232,7 @@ module.exports = {
             })
     },
     placeOrder:(order,products,total)=>{
-        return new Promise((resolve,reject)=>{
+        return new Promise(async(resolve,reject)=>{
             console.log(order,products,total);
             let status = order['payment-method'] === 'cod'?'placed':'pending'
             let orderObj ={
@@ -248,7 +249,7 @@ module.exports = {
                 total: total,
                 date: new Date()
             }
-            db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response)=>{
+             await db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response)=>{
                 db.get().collection(collection.CART_COLLECTION).deleteOne({user:objectId(order.userId)})
                 resolve(response.insertedId);
             })
@@ -313,25 +314,23 @@ module.exports = {
         })
     },
     
-    // generateRazorpay:(orderId,total)=>{
-    //     console.log(orderId+"--------------------- "+total);
-    //     return new Promise((resolve,reject)=>{
+    generateRazorpay:(orderId,total)=>{
+        console.log(orderId+"--------------------- "+total);
+        return new Promise((resolve,reject)=>{
             //  var options = {
             //     amount: 800,
             //     currency: "INR",
-            //     receipt: "orderId",
+               
             // };
            
-            // instance.orders.create(amount,currency,orderId,(err, order)=>{
-            //     console.log(order);
-            // })
-            // instance.orders.create(options,function(err,order){
-            //     // if(err){
-            //          console.log(err);
-            //     // }else{
-            //     //    console.log(options);
-            //     // }
-            // })
-    //     })
-    // }
+           
+            instance.orders.create({amount:800,currency:"INR",reciept:"jijiu2222"},function(err,order){
+                if(err){
+                     console.log(err);
+                }else{
+                   console.log(options);
+                }
+            })
+        })
+    }
 }
